@@ -72,35 +72,20 @@ object Application extends Controller {
   }, {
     Action {
       Async {
-        time {
           Akka.future {
-            time {
-              if (timeout) {
-                TimeUnit.MILLISECONDS.sleep(5000);
-                timeout = false
-              } else {
-                TimeUnit.MILLISECONDS.sleep(500);
-                timeout = true
-              }
+              TimeUnit.MILLISECONDS.sleep(500);
+              timeout = true
               UUIDKeyGen.gen + " " + java.lang.Math.PI
-            } {
-              play.api.Play.isDev
-            }
           } orTimeout("oops.. (like in Independece Day)", 1000) map {
             piOrTimeOut => piOrTimeOut fold(
               pi => {Cache.set("pi", pi);Ok("PI value computed: " + pi)},
               timeout => InternalServerError(timeout)
               )
           }
-        } {
-          play.api.Play.isDev
         }
       }
     }
-  }
-
-
-  )
+)
 
 
   import com.codahale.jerkson.Json
