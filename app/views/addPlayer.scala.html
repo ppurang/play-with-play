@@ -1,0 +1,21 @@
+@(form: play.api.data.Form[String])
+ 
+@main("Welcome to webservices game") {
+<div class="pills">
+    <div  class="label">
+        <h3>Please register your URL</h3>
+    </div>
+    <p class="empty"></p>
+    <p>
+        <div class="form-stacked">
+            @helper.form(action = routes.Application.addUrl) {
+
+                    @helper.inputText(form("location"))
+
+                    <input class="btn" type="submit" value="Play!"/>
+            }
+
+        </div>
+    </p>
+</div>
+}

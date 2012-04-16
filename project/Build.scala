@@ -9,7 +9,9 @@ object ApplicationBuild extends Build {
 
     val appDependencies = Seq(
       // Add your project dependencies here,
-      "postgresql" % "postgresql" % "9.1-901-1.jdbc4"
+      "postgresql" % "postgresql" % "9.1-901-1.jdbc4",
+      "org.scala-tools" %% "scala-stm" % "0.5",
+      "org.scalaz" % "scalaz-core_2.9.1" % "6.0.4"  withSources()
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(

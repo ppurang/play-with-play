@@ -1,0 +1,11 @@
+@(player: models.RegisteredUriPlayer)
+ 
+@main("Welcome to webservices game") {
+        <div class="pills">
+            <div  class="label">
+                <h3>Congratulations you are registered</h3>
+            </div>
+            <p class="empty"></p>
+            <p>Your key <span class="alert-message success">@player.key</span> keep it <span class="alert-message danger">safe</span> and <span class="alert-message danger">don't share</span> it.</p>
+        </div>
+}
