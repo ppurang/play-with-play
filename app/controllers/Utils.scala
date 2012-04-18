@@ -20,16 +20,22 @@ object Utils {
 
   implicit def optionToOptionFold(o: Option[_]): Fold[_] = OptionFold(o)
   
-  def time[A](f : => A)(enabled: Boolean = true): A = {
-    if(enabled) {
+  def timeFn[A](f : => A): (Long, A) = {
       val start = tick
       val v = f
       val stop = tick
-      Logger.info("It took %s ms".format(ms(start-stop)))
-      v
+      (stop-start, v)
+  }
+
+  def lt[A](context: String)(f : => A)(enabled: Boolean = true): A = {
+    if(enabled) {
+      val t: (Long, A) = timeFn(f)
+      Logger.info("%s took %d ms".format(context, ms(t._1)))
+      t._2
     } else {
       f
     }
   }
+
 
 }

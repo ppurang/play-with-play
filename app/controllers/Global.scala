@@ -30,7 +30,7 @@ object Global extends GlobalSettings {
   }
 
   override def onRouteRequest(request: RequestHeader): Option[Handler] = {
-    time(super.onRouteRequest(request))(Play.isDev)
+    lt(request.path)(super.onRouteRequest(request))(Play.isDev)
   }
 
 
