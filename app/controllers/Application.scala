@@ -46,21 +46,23 @@ object Application extends Controller {
   @volatile private var timeout = false
 
   def pi() = Action {
-    Async     {
+    Async {
       lt("-- pi async") {
         Akka.future {
           lt("---- pi future") {
             if (timeout) {
-              TimeUnit.MILLISECONDS.sleep(5000); timeout = false
+              TimeUnit.MILLISECONDS.sleep(5000);
+              timeout = false
             } else {
-              TimeUnit.MILLISECONDS.sleep(500); timeout = true
+              TimeUnit.MILLISECONDS.sleep(500);
+              timeout = true
             }
             UUIDKeyGen.gen + " " + java.lang.Math.PI
           } {
             play.api.Play.isDev
           }
         } orTimeout("oops.. (like in Independece Day)", 1000) map {
-          piOrTimeOut =>  piOrTimeOut fold(
+          piOrTimeOut => piOrTimeOut fold(
             pi => Ok("PI value computed: " + pi),
             timeout => InternalServerError(timeout)
             )
@@ -81,7 +83,7 @@ object Application extends Controller {
         Akka.future {
           TimeUnit.MILLISECONDS.sleep(500);
           UUIDKeyGen.gen + " " + java.lang.Math.PI
-          } orTimeout("oops.. (like in Independece Day)", 1000) map {
+        } orTimeout("oops.. (like in Independece Day)", 1000) map {
           piOrTimeOut => piOrTimeOut fold(
             pi => {
               Cache.set("pi", pi);
@@ -114,8 +116,7 @@ object Application extends Controller {
   def addUrl() = Action {
     implicit request =>
       urlForm.bindFromRequest.fold(
-      errors => BadRequest,
-      {
+      errors => BadRequest, {
         case (location) =>
           val player: RegisteredUriPlayer = RegisteredUriPlayer(location, UUIDKeyGen.gen)
           val create: Either[Throwable, Int] = RegisteredUriPlayer.create(player)
@@ -124,7 +125,7 @@ object Application extends Controller {
             i => Ok(views.html.showRegisteredPlayer(player))
           )
       }
-    )
+      )
   }
 
   def addUrlShowForm = Action {
@@ -141,15 +142,16 @@ object Application extends Controller {
 
   def oldComet = Action {
     val events = Enumerator(
-       """<script>console.log('kiki')</script>""",
-       """<script>console.log('foo')</script>""",
-       """<script>console.log('bar')</script>"""
+      """<script>console.log('kiki')</script>""",
+      """<script>console.log('foo')</script>""",
+      """<script>console.log('bar')</script>"""
     )
     Ok.stream(events >>> Enumerator.eof).as(HTML)
   }
 
   // Transform a String message into an Html script tag
-  val toCometMessage = Enumeratee.map[String] { data =>
+  val toCometMessage = Enumeratee.map[String] {
+    data =>
       Html("""<script>console.log('""" + data + """')</script>""")
   }
 
@@ -163,7 +165,7 @@ object Application extends Controller {
     Ok.stream(events &> Comet(callback = "console.log"))
   }
 
-  
+
   def cometBrowser = Action {
     val continually: Stream[String] = scala.Stream.continually({
       "kiki"
@@ -173,7 +175,7 @@ object Application extends Controller {
     val events = Enumerator("tom", "dick", "harry")
 
     Ok.stream(events &> Comet(callback = "parent.cometMessage"))
-    
+
   }
 
   def cometIFrame = Action {
@@ -181,26 +183,28 @@ object Application extends Controller {
   }
 
 
-  def webSocket = WebSocket.using[String] { request =>
+  def webSocket = WebSocket.using[String] {
+    request =>
 
     // Log events to the console
-    val in = Iteratee.foreach[String](x => x).mapDone { _ =>
-      println("Disconnected")
-    }
+      val in = Iteratee.foreach[String](x => x).mapDone {
+        _ =>
+          println("Disconnected")
+      }
 
-    println("IN -> " + in)
+      println("IN -> " + in)
 
-    val hello = Enumeratee.map[String](x => "Hello " + x + "!")
+      val hello = Enumeratee.map[String](x => "Hello " + x + "!")
 
 
-    val out = Enumerator("abcd", "efgh", "ijkl")
+      val out = Enumerator("abcd", "efgh", "ijkl")
 
-    (in, out)
+      (in, out)
   }
 
   def webSocketTest = Action {
-      Ok(views.html.ws())
-    }
+    Ok(views.html.ws())
+  }
 
 
 }

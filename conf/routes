@@ -8,7 +8,7 @@ GET     /                           controllers.Application.index
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
-GET    /addUrl                     controllers.Application.addUrlShowForm
+GET    /addUrl                      controllers.Application.addUrlShowForm
 
 
 
@@ -16,19 +16,19 @@ POST    /addBar                     controllers.Application.addBar
 POST    /addUrl                     controllers.Application.addUrl
 
 GET     /listBars                   controllers.Application.listBars
-GET     /pi                   controllers.Application.pi
-GET     /cached/pi                   controllers.Application.cachedPi
-GET     /stream                  controllers.Application.stream
+GET     /pi                         controllers.Application.pi
+GET     /cached/pi                  controllers.Application.cachedPi
+GET     /stream                     controllers.Application.stream
 
 GET     /old-comet                  controllers.Application.oldComet
-GET     /comet                  controllers.Application.comet
-GET     /comet-comet                  controllers.Application.cometComet
-GET     /comet-browser                  controllers.Application.cometBrowser
-GET     /comet-iframe                  controllers.Application.cometIFrame
-GET     /comet-iframe                  controllers.Application.cometIFrame
+GET     /comet                      controllers.Application.comet
+GET     /comet-comet                controllers.Application.cometComet
+GET     /comet-browser              controllers.Application.cometBrowser
+GET     /comet-iframe               controllers.Application.cometIFrame
+GET     /comet-iframe               controllers.Application.cometIFrame
 
-GET     /ws-test                  controllers.Application.webSocketTest
-GET     /ws                  controllers.Application.webSocket
+GET     /ws-test                    controllers.Application.webSocketTest
+GET     /ws                         controllers.Application.webSocket
 
 
-# GET    /listPlayers                     controllers.Application.listPlayers
+# GET    /listPlayers               controllers.Application.listPlayers
